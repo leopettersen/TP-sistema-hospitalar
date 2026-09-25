@@ -25,4 +25,9 @@ public class PortoesDoCeuController {
     public String agenda() {
         return "agenda";
     }
+
+    @GetMapping("/cadastro-paciente")
+    public String cadastroPaciente() {
+        return "cadastro-paciente";
+    }
 }
