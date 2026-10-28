@@ -5,15 +5,16 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 20px;
+    padding-top: 40px;
 }
 
 .agenda-titulo {
-    font-size: 22px;
-    font-weight: 700;
+    font-size: 34px;
+    line-height: 1.2;
+    font-weight: normal;
+    color: #252525;
     margin: 0 0 20px 0;
     text-align: center;
-    color: #1a1a1a;
 }
 
 .passador-semana {
@@ -39,7 +40,7 @@
     justify-content: center;
     width: 30px;
     height: 30px;
-    border: 1px solid #ccc;
+    border: 1px solid #e5e5e5;
     border-radius: 6px;
     background: #f7f7f7;
     color: #333;
@@ -52,7 +53,7 @@
 
 .passador-btn:hover {
     background: #eaeaea;
-    border-color: #bbb;
+    border-color: #d5d5d5;
 }
 
 .passador-btn:active {
@@ -67,21 +68,21 @@
 .agenda {
     border-collapse: collapse;
     background: #fff;
-    border: 2px solid #ccc;
+    border: 1px solid #e5e5e5;
     width: 100%;
     min-width: 700px;
     table-layout: fixed;
 }
 
 .agenda th {
-    background: #eef0f2;
-    font-weight: 700;
-    color: #222;
+    background: #f8f9fa;
+    font-weight: bold;
+    color: #333;
     padding: 12px 8px;
-    border: 1px solid #ccc;
-    border-bottom: 2px solid #bbb;
+    border: 1px solid #e5e5e5;
+    border-bottom: 2px solid #e0e0e0;
     text-align: center;
-    font-size: 14px;
+    font-size: 13px;
     position: sticky;
     top: 0;
     z-index: 1;
@@ -92,18 +93,18 @@
     vertical-align: middle;
     text-align: center;
     padding: 8px 6px;
-    border: 1px solid #ccc;
+    border: 1px solid #e5e5e5;
     font-size: 13px;
     color: #333;
     transition: background 0.15s ease;
 }
 
 .agenda td.horario {
-    background: #f2f2f2;
+    background: #f8f9fa;
     font-weight: 700;
     color: #222;
     width: 90px;
-    border-right: 2px solid #bbb;
+    border-right: 1px solid #e5e5e5;
 }
 
 @media (max-width: 768px) {

@@ -1,7 +1,7 @@
 #pacientes-container {
     display: flex;
     flex-direction: column;
-    padding: 2rem;
+    padding: 85px 9%;
     background-color: #ffffff;
     min-height: calc(100vh - 200px);
 }
@@ -75,14 +75,15 @@ table {
 }
 
 thead {
-    background-color: #f8f9fa;
+    background-color: #005409;
 }
 
 th {
     padding: 1rem;
     text-align: left;
     font-weight: bold;
-    color: #333;
+    color: white;
+    background-color: #005409;
     border-bottom: 2px solid #e0e0e0;
     font-size: 0.9rem;
 }

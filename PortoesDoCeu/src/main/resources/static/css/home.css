@@ -1,31 +1,55 @@
 .container-info {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 20px;
+
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 9% 0;
 }
 
 .info-box {
-    background-color: #f0f0f0;
-    padding: 20px;
-    border: 1px solid black;
-    border-radius: 8px;
+    background-color: #fafafa;
+    padding: 26px;
+    border: 1px solid #e3e3e3;
+    border-radius: 7px;
     text-align: center;
-    margin: 40px;
+    transition: 0.2s;
+}
+
+.info-box:hover {
+    transform: translateY(-4px);
+    border-color: #c7d5c8;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+}
+
+.info-box h2 {
+    color: #333;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 8px;
 }
 
 .container-consultas {
+    max-width: 1100px;
     margin: 0 auto;
-    padding: 20px;
-    margin-top: 40px;
-    justify-content: center;
+    padding: 40px 9% 85px;
     text-align: center;
 }
 
+.container-consultas h2 {
+    max-width: 700px;
+    margin: 0 auto 40px;
+    color: #252525;
+    font-size: 34px;
+    line-height: 1.2;
+    font-weight: normal;
+}
+
 .consulta-table {
-    width: 95%;
-    margin: 40px;
-    background-color: #f0f0f0;
-    border: 1px solid black;
+    width: 100%;
+    background-color: #ffffff;
+    border: 1px solid #e5e5e5;
     border-radius: 8px;
     border-collapse: separate;
     border-spacing: 0;
@@ -35,15 +59,16 @@
 .consulta-table td {
     padding: 12px;
     text-align: center;
-    border-right: 1px solid black;
-    border-bottom: 1px solid black;
+    border-right: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
 }
 
-.consulta-header {
-    text-align: center;
+.consulta-header,
+.consulta-table thead th {
     background-color: #005409;
     color: white;
-    font-size: 24px;
+    font-size: 13px;
+    font-weight: bold;
 }
 
 .consulta-table th:last-child,
