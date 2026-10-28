@@ -21,6 +21,23 @@ public class Agenda {
     @Transient
     private Map<LocalDateTime, Atendimento> agenda = new HashMap<>();
 
+    public Agenda(UUID id) {
+        this.id = id;
+        agenda = new HashMap<>();
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public Map<LocalDateTime, Atendimento> getAgenda() {
+        return agenda;
+    }
+
+    public void setAgenda(Map<LocalDateTime, Atendimento> agenda) {
+        this.agenda = agenda;
+    }
+
     public void addAtendimento(LocalDateTime data, Atendimento atendimento) {
         this.agenda.put(data, atendimento);
     }

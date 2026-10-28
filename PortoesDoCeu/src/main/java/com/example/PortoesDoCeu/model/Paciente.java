@@ -1,10 +1,11 @@
 package com.example.PortoesDoCeu.model;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+
 
 @Entity
 public class Paciente {
@@ -17,8 +18,18 @@ public class Paciente {
     private String endereco;
     private String email;
 
-    @OneToOne 
-    private Historico historico;
+    private UUID historicoiD;
+
+    public Paciente(String cpf, String nome, LocalDate dataNascimento, String telefone, String endereco, String email,
+            UUID historicoiD) {
+        this.cpf = cpf;
+        this.nome = nome;
+        this.dataNascimento = dataNascimento;
+        this.telefone = telefone;
+        this.endereco = endereco;
+        this.email = email;
+        this.historicoiD = historicoiD;
+    }
 
     public String getNome() {
         return nome;
@@ -30,10 +41,6 @@ public class Paciente {
 
     public String getCpf() {
         return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
     }
 
     public LocalDate getDataNascimento() {
@@ -66,5 +73,13 @@ public class Paciente {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public UUID getHistoricoiD() {
+        return historicoiD;
+    }
+
+    public void setHistoricoiD(UUID historicoiD) {
+        this.historicoiD = historicoiD;
     }
 }

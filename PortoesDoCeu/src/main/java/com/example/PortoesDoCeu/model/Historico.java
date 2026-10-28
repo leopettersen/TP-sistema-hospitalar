@@ -18,4 +18,31 @@ public class Historico {
     @OneToMany
     private ArrayList<Atendimento> atendimentos;
     private ArrayList<String> informacoes_relevantes;
+
+    public Historico(UUID id) {
+        this.id = id;
+        atendimentos = new ArrayList<>();
+        informacoes_relevantes = new ArrayList<>();
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public ArrayList<Atendimento> getAtendimentos() {
+        return atendimentos;
+    }
+
+    public void setAtendimentos(ArrayList<Atendimento> atendimentos) {
+        this.atendimentos = atendimentos;
+    }
+
+    public ArrayList<String> getInformacoes_relevantes() {
+        return informacoes_relevantes;
+    }
+
+    public void setInformacoes_relevantes(ArrayList<String> informacoes_relevantes) {
+        this.informacoes_relevantes = informacoes_relevantes;
+    }
+    
 }
