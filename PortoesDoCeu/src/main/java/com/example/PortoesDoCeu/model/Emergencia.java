@@ -3,6 +3,8 @@ package com.example.PortoesDoCeu.model;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import com.example.PortoesDoCeu.model.enums.Prioridade;
+
 public class Emergencia extends Atendimento{
     private Prioridade prioridade;
 

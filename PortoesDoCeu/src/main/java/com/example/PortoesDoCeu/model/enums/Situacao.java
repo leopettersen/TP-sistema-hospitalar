@@ -1,4 +1,4 @@
-package com.example.PortoesDoCeu.model;
+package com.example.PortoesDoCeu.model.enums;
 
 public enum Situacao {
     AGENDADO,
