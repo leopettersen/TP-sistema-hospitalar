@@ -5,28 +5,32 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Internacao extends Atendimento{
 
-    private int numeroQuarto;
+    @ManyToOne
+    @JoinColumn(name = "numero_quarto")
+    private Quarto quarto;
     private LocalDate alta_prevista; 
     private LocalDateTime data_alta;
 
     public Internacao(UUID id, Paciente paciente, Profissional profissional, String observacoes, LocalDateTime horario,
-            int numeroQuarto, LocalDate alta_prevista, LocalDateTime data_alta) {
+            Quarto quarto, LocalDate alta_prevista, LocalDateTime data_alta) {
         super(id, paciente, profissional, observacoes, horario);
-        this.numeroQuarto = numeroQuarto;
+        this.quarto = quarto;
         this.alta_prevista = alta_prevista;
         this.data_alta = data_alta;
     }
 
-    public int getQuarto() {
-        return numeroQuarto;
+    public Quarto getQuarto() {
+        return quarto;
     }
 
-    public void setQuarto(int numeroQuarto) {
-        this.numeroQuarto = numeroQuarto;
+    public void setQuarto(Quarto quarto) {
+        this.quarto = quarto;
     }
 
     public LocalDate getAlta_prevista() {

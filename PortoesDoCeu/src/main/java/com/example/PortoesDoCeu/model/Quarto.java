@@ -2,6 +2,7 @@ package com.example.PortoesDoCeu.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import com.example.PortoesDoCeu.model.enums.SituacaoQuarto;
 
 @Entity
 public class Quarto {
@@ -9,12 +10,12 @@ public class Quarto {
     private int numero;
 
     private int capacidade_maxima;
-    private boolean situacao_atual;
+    private SituacaoQuarto situacao;
     
-    public Quarto(int numero, int capacidade_maxima, boolean situacao_atual) {
+    public Quarto(int numero, int capacidade_maxima, SituacaoQuarto situacao) {
         this.numero = numero;
         this.capacidade_maxima = capacidade_maxima;
-        this.situacao_atual = situacao_atual;
+        this.situacao = situacao;
     }
 
     public int getNumero() {
@@ -29,12 +30,12 @@ public class Quarto {
         this.capacidade_maxima = capacidade_maxima;
     }
 
-    public boolean isSituacao_atual() {
-        return situacao_atual;
+    public SituacaoQuarto getSituacao() {
+        return situacao;
     }
 
-    public void setSituacao_atual(boolean situacao_atual) {
-        this.situacao_atual = situacao_atual;
+    public void setSituacao(SituacaoQuarto situacao) {
+        this.situacao = situacao;
     }
     
 }
