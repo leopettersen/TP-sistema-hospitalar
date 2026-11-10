@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.example.PortoesDoCeu.model.Cirurgiao;
+import com.example.PortoesDoCeu.model.Clinico;
 import com.example.PortoesDoCeu.model.Especialista;
 import com.example.PortoesDoCeu.model.Profissional;
 
@@ -20,7 +21,12 @@ public interface ProfissionalRepository
         String nome
     );
 
-    @Query("SELECT p FROM Especialista p")
+    @Query("SELECT p FROM Profissional p "
+         + "WHERE TYPE(p) = Clinico")
+    List<Clinico> buscarClinicos();
+
+    @Query("SELECT p FROM Profissional p "
+         + "WHERE TYPE(p) = Especialista")
     List<Especialista> buscarEspecialistas();
 
     @Query("SELECT p FROM Profissional p "
