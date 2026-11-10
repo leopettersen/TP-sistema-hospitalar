@@ -1,0 +1,22 @@
+
+package com.example.PortoesDoCeu.model.enums;
+
+public enum EspecialidadeMedica {
+
+    CARDIOLOGIA,
+    NEUROLOGIA,
+    ORTOPEDIA,
+    PEDIATRIA,
+    DERMATOLOGIA,
+    OFTALMOLOGIA,
+    GINECOLOGIA,
+    UROLOGIA,
+    PSIQUIATRIA,
+    ENDOCRINOLOGIA,
+    GASTROENTEROLOGIA,
+    PNEUMOLOGIA,
+    OTORRINOLARINGOLOGIA,
+    NEFROLOGIA,
+    ONCOLOGIA,
+    REUMATOLOGIA
+}
