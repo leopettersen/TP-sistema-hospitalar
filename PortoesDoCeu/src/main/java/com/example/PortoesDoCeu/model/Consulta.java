@@ -7,20 +7,15 @@ import jakarta.persistence.Entity;
 
 @Entity
 public class Consulta extends Atendimento {
+//alteracoes feitas em pro da consulta das subclasses consulta rotina e especializada
 
-    private String motivo;
-
-    public Consulta(UUID id, Paciente paciente, Profissional profissional, String observacoes, LocalDateTime horario,
-            String motivo) {
-        super(id, paciente, profissional, observacoes, horario);
-        this.motivo = motivo;
+    protected Consulta() {
+        super();
     }
 
-    public String getMotivo() {
-        return motivo;
-    }
-
-    public void setMotivo(String motivo) {
-        this.motivo = motivo;
-    }    
+    // id vai null porque é gerado pelo banco
+    protected Consulta(Paciente paciente, Profissional profissional,
+            String observacoes, LocalDateTime horario) {
+        super(null, paciente, profissional, observacoes, horario);
+    }  
 }
