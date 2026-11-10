@@ -1,8 +1,11 @@
 package com.example.PortoesDoCeu.model;
 
+import jakarta.persistence.Entity;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+@Entity
 public class Cirurgia extends  Atendimento{
     private String descricao;
     private String tipo;

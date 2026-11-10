@@ -1,10 +1,13 @@
 package com.example.PortoesDoCeu.model;
 
+import jakarta.persistence.Entity;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 import com.example.PortoesDoCeu.model.enums.Prioridade;
 
+@Entity
 public class Emergencia extends Atendimento{
     private Prioridade prioridade;
 
