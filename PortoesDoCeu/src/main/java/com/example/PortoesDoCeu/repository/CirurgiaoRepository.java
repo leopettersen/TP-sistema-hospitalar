@@ -1,11 +1,17 @@
+
 package com.example.PortoesDoCeu.repository;
 
-import com.example.PortoesDoCeu.model.Cirurgiao;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
-/* repository eh pra permitir a ORM (que eh para manipular infos no BD sem usar query)
-fornece metodos como:
-save() -> salva ou atualiza um paciente
-deleteById()-> remove um paciente pelo ID*/
-public interface CirurgiaoRepository extends JpaRepository<Cirurgiao, String> {
+import com.example.PortoesDoCeu.model.Cirurgiao;
+import com.example.PortoesDoCeu.model.enums.TipoCirurgia;
+
+public interface CirurgiaoRepository
+        extends JpaRepository<Cirurgiao, String> {
+
+    List<Cirurgiao> findByAreaCirurgica(
+        TipoCirurgia areaCirurgica
+    );
 }
