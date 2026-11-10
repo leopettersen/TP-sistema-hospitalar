@@ -18,7 +18,7 @@ import jakarta.persistence.Table;
         name = "tipo_profissional",
         discriminatorType = DiscriminatorType.STRING
 )
-public class Profissional {
+public abstract class Profissional {
 
     @Id
     private String registro;
@@ -26,21 +26,30 @@ public class Profissional {
     private String nome;
     private String telefone;
     private String email;
-
     private UUID agendaId;
 
-    // Construtor vazio exigido pelo JPA
     protected Profissional() {
     }
 
-    // Construtor com os dados do profissional
     public Profissional(
             String registro,
             String nome,
             String telefone,
             String email,
-            UUID agendaId
-    ) {
+            UUID agendaId) {
+
+        if (registro == null || registro.isBlank()) {
+            throw new IllegalArgumentException(
+                    "O registro profissional é obrigatório."
+            );
+        }
+
+        if (nome == null || nome.isBlank()) {
+            throw new IllegalArgumentException(
+                    "O nome é obrigatório."
+            );
+        }
+
         this.registro = registro;
         this.nome = nome;
         this.telefone = telefone;
