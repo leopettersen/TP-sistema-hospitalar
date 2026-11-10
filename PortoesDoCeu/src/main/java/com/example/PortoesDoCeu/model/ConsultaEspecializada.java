@@ -1,4 +1,3 @@
-
 package com.example.PortoesDoCeu.model;
 
 import java.time.LocalDateTime;
@@ -7,15 +6,14 @@ import java.util.UUID;
 import jakarta.persistence.Entity;
 
 @Entity
-public class Especializada extends Atendimento {
+public class ConsultaEspecializada extends Consulta {
 
     private String especializacao;
 
-    protected Especializada() {
-        super();
+    protected ConsultaEspecializada() {
     }
 
-    public Especializada(
+    public ConsultaEspecializada(
             UUID id,
             Paciente paciente,
             Profissional profissional,
