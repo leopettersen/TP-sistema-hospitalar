@@ -1,32 +1,49 @@
-package com.example.PortoesDoCeu.model;
 
+package com.example.PortoesDoCeu.model;
 
 import java.util.UUID;
 
-import jakarta.persistence.DiscriminatorColumn;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
-import jakarta.persistence.DiscriminatorType;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
-@Entity 
+@Entity
 @Table(name = "profissional")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "tipo_profissional", discriminatorType = DiscriminatorType.STRING)
-public class Profissional {
+@DiscriminatorColumn(
+    name = "tipo_profissional",
+    discriminatorType = DiscriminatorType.STRING
+)
+public abstract class Profissional {
 
-    @Id 
+    @Id
     private String registro;
-    private String nome;    
+
+    private String nome;
     private String telefone;
     private String email;
-
     private UUID agendaId;
 
-    public Profissional(String registro, String nome, String telefone, String email,
+    protected Profissional() {
+    }
+
+    public Profissional(
+            String registro,
+            String nome,
+            String telefone,
+            String email,
             UUID agendaId) {
+
+        if (registro == null || registro.isBlank()) {
+            throw new IllegalArgumentException(
+                "O registro profissional é obrigatório."
+            );
+        }
+
+        if (nome == null || nome.isBlank()) {
+            throw new IllegalArgumentException(
+                "O nome é obrigatório."
+            );
+        }
+
         this.registro = registro;
         this.nome = nome;
         this.telefone = telefone;
