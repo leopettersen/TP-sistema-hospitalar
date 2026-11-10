@@ -1,7 +1,6 @@
 
 package com.example.PortoesDoCeu.model;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 import com.example.PortoesDoCeu.model.enums.TipoCirurgia;
@@ -53,33 +52,5 @@ public class Cirurgiao extends Profissional {
         }
 
         this.areaCirurgica = areaCirurgica;
-    }
-
-    public ProcedimentoCirurgico registrarProcedimento(
-            Paciente paciente,
-            String descricao,
-            TipoCirurgia tipoCirurgia,
-            LocalDateTime horario) {
-
-        if (paciente == null) {
-            throw new IllegalArgumentException(
-                    "O paciente é obrigatório."
-            );
-        }
-
-        if (tipoCirurgia == null
-                || tipoCirurgia != areaCirurgica) {
-            throw new IllegalArgumentException(
-                    "Tipo de cirurgia incompatível com a área do cirurgião."
-            );
-        }
-
-        return new ProcedimentoCirurgico(
-                paciente,
-                this,
-                descricao,
-                tipoCirurgia,
-                horario
-        );
     }
 }

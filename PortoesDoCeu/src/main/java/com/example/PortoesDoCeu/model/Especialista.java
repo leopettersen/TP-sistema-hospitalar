@@ -11,6 +11,9 @@ public class Especialista extends Profissional{
 
     private String especialidade;
 
+    protected Especialista() {
+    }
+
     public Especialista(String registro, String nome, String especialidade, String telefone, String email,
             UUID agendaId) {
         super(registro, nome, telefone, email, agendaId);

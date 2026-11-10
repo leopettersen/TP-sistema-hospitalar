@@ -9,6 +9,9 @@ import java.util.UUID;
 public class Rotina extends Atendimento{
     private String motivo;
 
+    protected Rotina() {
+    }
+
     public Rotina(UUID id, Paciente paciente, Profissional profissional, String observacoes, LocalDateTime horario, String motivo) {
         super(id, paciente, profissional, observacoes, horario);
         this.motivo = motivo;

@@ -11,6 +11,9 @@ import com.example.PortoesDoCeu.model.enums.Prioridade;
 public class Emergencia extends Atendimento{
     private Prioridade prioridade;
 
+    protected Emergencia() {
+    }
+
     public Emergencia(UUID id, Paciente paciente, Profissional profissional, String observacoes, LocalDateTime horario, Prioridade prioridade) {
         super(id, paciente, profissional, observacoes, horario);
         this.prioridade = prioridade;

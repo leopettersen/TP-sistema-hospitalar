@@ -1,5 +1,4 @@
 package com.example.PortoesDoCeu.model.enums;
-//status da consulta solicitado no readme com todos os status que eu consegui pensar
 public enum StatusConsulta {
     PENDENTE,
     AGENDADA,
@@ -9,7 +8,6 @@ public enum StatusConsulta {
     CANCELADA,
     NAO_COMPARECEU;
 
-    //faz a verificacao de status anterior para futuro
     public boolean podeMudarStatus(StatusConsulta statusFinal){
         if (this == StatusConsulta.PENDENTE) {
             return statusFinal == StatusConsulta.AGENDADA || statusFinal == StatusConsulta.CANCELADA ;
