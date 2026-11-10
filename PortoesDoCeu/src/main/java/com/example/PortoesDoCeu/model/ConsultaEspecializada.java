@@ -1,5 +1,3 @@
-package com.example.PortoesDoCeu.model;
-
 import java.time.LocalDateTime;
 import java.util.UUID;
 

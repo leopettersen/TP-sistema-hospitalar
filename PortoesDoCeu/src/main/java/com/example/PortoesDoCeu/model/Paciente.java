@@ -20,6 +20,9 @@ public class Paciente {
 
     private UUID historicoiD;
 
+    protected Paciente() {
+    }
+
     public Paciente(String cpf, String nome, LocalDate dataNascimento, String telefone, String endereco, String email,
             UUID historicoiD) {
         this.cpf = cpf;
