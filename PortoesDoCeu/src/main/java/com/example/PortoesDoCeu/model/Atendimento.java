@@ -1,3 +1,4 @@
+
 package com.example.PortoesDoCeu.model;
 
 import java.time.LocalDateTime;
@@ -11,20 +12,33 @@ import jakarta.persistence.ManyToOne;
 
 @Entity
 public abstract class Atendimento {
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @ManyToOne 
+    @ManyToOne
     private Paciente paciente;
-    @ManyToOne 
+
+    @ManyToOne
     private Profissional profissional;
-    
+
     private String observacoes;
+
     private LocalDateTime horario;
 
-    public Atendimento(UUID id, Paciente paciente, Profissional profissional, String observacoes,
-            LocalDateTime horario) {
+    // Construtor vazio exigido pelo JPA
+    protected Atendimento() {
+    }
+
+    // Construtor com os dados do atendimento
+    public Atendimento(
+            UUID id,
+            Paciente paciente,
+            Profissional profissional,
+            String observacoes,
+            LocalDateTime horario
+    ) {
         this.id = id;
         this.paciente = paciente;
         this.profissional = profissional;
