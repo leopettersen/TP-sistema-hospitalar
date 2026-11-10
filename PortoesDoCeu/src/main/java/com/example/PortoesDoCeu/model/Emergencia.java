@@ -12,4 +12,12 @@ public class Emergencia extends Atendimento{
         super(id, paciente, profissional, observacoes, horario);
         this.prioridade = prioridade;
     }
+
+    public Prioridade getPrioridade() {
+        return prioridade;
+    }
+
+    public void setPrioridade(Prioridade prioridade) {
+        this.prioridade = prioridade;
+    }
 }

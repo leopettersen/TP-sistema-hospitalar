@@ -3,8 +3,18 @@ package com.example.PortoesDoCeu.model;
 
 import java.util.UUID;
 
+import jakarta.persistence.DiscriminatorColumn;
+import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.DiscriminatorType;
+import jakarta.persistence.Table;
 
+@Entity 
+@Table(name = "profissional")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "tipo_profissional", discriminatorType = DiscriminatorType.STRING)
 public class Profissional {
 
     @Id 
