@@ -41,18 +41,20 @@ public class InternacaoService {
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Paciente não encontrado: " + request.cpfPaciente()));
 
-        Quarto quarto = quartoRepository.findById(request.numeroQuarto())
+        Quarto quarto = quartoRepository.buscarPorNumeroComBloqueio(request.numeroQuarto())
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Quarto não encontrado: " + request.numeroQuarto()));
 
-        if (!internacaoRepository.findByPacienteCpfAndDataAltaIsNull(paciente.getCpf()).isEmpty()) {
+        if (internacaoRepository.existsByPacienteCpfAndDataAltaIsNull(paciente.getCpf())) {
             throw new RegraNegocioException("Paciente já possui internação ativa.");
         }
 
         long ocupados = internacaoRepository
                 .countByQuartoNumeroAndDataAltaIsNull(quarto.getNumero());
 
-        if (!quarto.temCapacidade(ocupados)) {
+        if (!quarto.temCapacidade(ocupados)
+                || (quarto.getSituacao() != com.example.PortoesDoCeu.model.enums.SituacaoQuarto.LIVRE
+                    && quarto.getSituacao() != com.example.PortoesDoCeu.model.enums.SituacaoQuarto.OCUPADO)) {
             throw new RegraNegocioException(
                     "Quarto " + quarto.getNumero() + " sem capacidade disponível.");
         }
@@ -65,7 +67,7 @@ public class InternacaoService {
                 quarto,
                 request.altaPrevista());
 
-        internacao.internar();
+        internacao.internar(ocupados);
 
         return toResponse(internacaoRepository.save(internacao));
     }
@@ -94,7 +96,9 @@ public class InternacaoService {
     @Transactional
     public InternacaoResponse registrarAlta(UUID id, LocalDateTime dataAlta) {
         Internacao internacao = buscarEntidade(id);
-        internacao.registrarAlta(dataAlta);
+        long restantes = internacaoRepository
+                .countByQuartoNumeroAndDataAltaIsNull(internacao.getQuarto().getNumero()) - 1;
+        internacao.registrarAlta(dataAlta, Math.max(0, restantes));
         return toResponse(internacao);
     }
 
@@ -102,19 +106,23 @@ public class InternacaoService {
     public InternacaoResponse transferirQuarto(UUID id, int novoNumeroQuarto) {
         Internacao internacao = buscarEntidade(id);
 
-        Quarto novoQuarto = quartoRepository.findById(novoNumeroQuarto)
+        Quarto novoQuarto = quartoRepository.buscarPorNumeroComBloqueio(novoNumeroQuarto)
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Quarto não encontrado: " + novoNumeroQuarto));
 
         long ocupados = internacaoRepository
                 .countByQuartoNumeroAndDataAltaIsNull(novoQuarto.getNumero());
 
-        if (!novoQuarto.temCapacidade(ocupados)) {
+        if (!novoQuarto.temCapacidade(ocupados)
+                || (novoQuarto.getSituacao() != com.example.PortoesDoCeu.model.enums.SituacaoQuarto.LIVRE
+                    && novoQuarto.getSituacao() != com.example.PortoesDoCeu.model.enums.SituacaoQuarto.OCUPADO)) {
             throw new RegraNegocioException(
                     "Quarto " + novoQuarto.getNumero() + " sem capacidade disponível.");
         }
 
-        internacao.transferirQuarto(novoQuarto);
+        long restantesNoAntigo = internacaoRepository
+                .countByQuartoNumeroAndDataAltaIsNull(internacao.getQuarto().getNumero()) - 1;
+        internacao.transferirQuarto(novoQuarto, ocupados, Math.max(0, restantesNoAntigo));
 
         return toResponse(internacao);
     }

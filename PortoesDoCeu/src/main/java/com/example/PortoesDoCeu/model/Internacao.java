@@ -79,17 +79,25 @@ public class Internacao extends Atendimento {
     }
 
     public void internar() {
+        internar(0);
+    }
+
+    public void internar(long internacoesAtivasNoQuarto) {
         if (!estaAtiva()) {
             throw new IllegalStateException("Internação já encerrada.");
         }
-        if (!quarto.estaDisponivel()) {
+        if (!quarto.temCapacidade(internacoesAtivasNoQuarto)) {
             throw new IllegalStateException(
-                    "Quarto " + quarto.getNumero() + " não está disponível para internação.");
+                    "Quarto " + quarto.getNumero() + " não possui leitos disponíveis.");
         }
         quarto.ocuparQuarto();
     }
 
     public void registrarAlta(LocalDateTime dataAlta) {
+        registrarAlta(dataAlta, 0);
+    }
+
+    public void registrarAlta(LocalDateTime dataAlta, long internacoesAtivasRestantes) {
         if (dataAlta == null) {
             throw new IllegalArgumentException("Data de alta é obrigatória.");
         }
@@ -102,10 +110,15 @@ public class Internacao extends Atendimento {
         }
 
         this.dataAlta = dataAlta;
-        quarto.liberarQuarto();
+        quarto.liberarQuarto(internacoesAtivasRestantes);
     }
 
     public void transferirQuarto(Quarto novoQuarto) {
+        transferirQuarto(novoQuarto, 0, 0);
+    }
+
+    public void transferirQuarto(Quarto novoQuarto, long internacoesAtivasNoNovoQuarto,
+            long internacoesAtivasRestantesNoAntigo) {
         if (novoQuarto == null) {
             throw new IllegalArgumentException("Novo quarto é obrigatório.");
         }
@@ -116,15 +129,15 @@ public class Internacao extends Atendimento {
         if (novoQuarto.getNumero() == quarto.getNumero()) {
             throw new IllegalArgumentException("O paciente já está neste quarto.");
         }
-        if (!novoQuarto.estaDisponivel()) {
+        if (!novoQuarto.temCapacidade(internacoesAtivasNoNovoQuarto)) {
             throw new IllegalStateException(
-                    "Quarto " + novoQuarto.getNumero() + " não está disponível.");
+                    "Quarto " + novoQuarto.getNumero() + " não possui leitos disponíveis.");
         }
 
         Quarto quartoAnterior = this.quarto;
         novoQuarto.ocuparQuarto();
         this.quarto = novoQuarto;
-        quartoAnterior.liberarQuarto();
+        quartoAnterior.liberarQuarto(internacoesAtivasRestantesNoAntigo);
     }
 
     public void reagendarAlta(LocalDate novaAltaPrevista) {

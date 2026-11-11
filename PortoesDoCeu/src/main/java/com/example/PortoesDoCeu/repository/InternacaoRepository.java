@@ -16,4 +16,8 @@ public interface InternacaoRepository extends JpaRepository<Internacao, UUID> {
     List<Internacao> findByQuartoNumeroAndDataAltaIsNull(int numeroQuarto);
 
     long countByQuartoNumeroAndDataAltaIsNull(int numeroQuarto);
+
+    boolean existsByPacienteCpfAndDataAltaIsNull(String cpf);
+
+    boolean existsByQuartoNumero(int numeroQuarto);
 }

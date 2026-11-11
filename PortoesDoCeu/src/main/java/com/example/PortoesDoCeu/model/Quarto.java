@@ -14,6 +14,8 @@ public class Quarto {
 
     private int capacidadeMaxima;
 
+    private Integer andar;
+
     @Enumerated(EnumType.STRING)
     private SituacaoQuarto situacao;
 
@@ -24,6 +26,10 @@ public class Quarto {
     }
 
     public Quarto(int numero, int capacidadeMaxima, SituacaoQuarto situacao, TipoQuarto tipoQuarto) {
+        this(numero, capacidadeMaxima, situacao, tipoQuarto, null);
+    }
+
+    public Quarto(int numero, int capacidadeMaxima, SituacaoQuarto situacao, TipoQuarto tipoQuarto, Integer andar) {
         if (numero <= 0) {
             throw new IllegalArgumentException("O número do quarto deve ser positivo.");
         }
@@ -40,7 +46,11 @@ public class Quarto {
         this.numero = numero;
         this.capacidadeMaxima = capacidadeMaxima;
         this.situacao = situacao;
+        if (andar != null && andar < 0) {
+            throw new IllegalArgumentException("O andar não pode ser negativo.");
+        }
         this.tipoQuarto = tipoQuarto;
+        this.andar = andar;
     }
 
     public int getNumero() {
@@ -49,6 +59,17 @@ public class Quarto {
 
     public int getCapacidadeMaxima() {
         return capacidadeMaxima;
+    }
+
+    public Integer getAndar() {
+        return andar;
+    }
+
+    public void setAndar(Integer andar) {
+        if (andar != null && andar < 0) {
+            throw new IllegalArgumentException("O andar não pode ser negativo.");
+        }
+        this.andar = andar;
     }
 
     public void setCapacidadeMaxima(int capacidadeMaxima) {
@@ -89,19 +110,28 @@ public class Quarto {
     }
 
     public void ocuparQuarto() {
-        if (!estaDisponivel()) {
+        if (situacao != SituacaoQuarto.LIVRE && situacao != SituacaoQuarto.OCUPADO) {
             throw new IllegalStateException(
                     "O quarto " + numero + " não está disponível para ocupação.");
         }
         setSituacao(SituacaoQuarto.OCUPADO);
     }
 
-    public void liberarQuarto() {
+    /** Atualiza a situação após uma alta, considerando os demais leitos ocupados. */
+    public void liberarQuarto(long internacoesAtivasRestantes) {
         if (situacao != SituacaoQuarto.OCUPADO) {
-            throw new IllegalStateException(
-                    "Só é possível liberar um quarto ocupado.");
+            throw new IllegalStateException("Só é possível liberar um quarto ocupado.");
         }
-        setSituacao(SituacaoQuarto.EM_LIMPEZA);
+        if (internacoesAtivasRestantes < 0) {
+            throw new IllegalArgumentException("A quantidade de ocupações não pode ser negativa.");
+        }
+        setSituacao(internacoesAtivasRestantes == 0
+                ? SituacaoQuarto.EM_LIMPEZA
+                : SituacaoQuarto.OCUPADO);
+    }
+
+    public void liberarQuarto() {
+        liberarQuarto(0);
     }
 
     public void terminarLimpeza() {
