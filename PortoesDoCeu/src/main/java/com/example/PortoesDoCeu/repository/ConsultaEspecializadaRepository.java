@@ -1,6 +1,6 @@
 package com.example.PortoesDoCeu.repository;
 
-import com.example.PortoesDoCeu.model.Especializada;
+import com.example.PortoesDoCeu.model.ConsultaEspecializada;
 
 import java.util.UUID;
 
@@ -10,5 +10,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 fornece metodos como:
 save() -> salva ou atualiza um paciente
 deleteById()-> remove um paciente pelo ID*/
-public interface EspecializadaRepository extends JpaRepository<Especializada, UUID> {
+public interface ConsultaEspecializadaRepository extends JpaRepository<ConsultaEspecializada, UUID> {
 }

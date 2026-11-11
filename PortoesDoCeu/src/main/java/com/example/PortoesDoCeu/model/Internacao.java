@@ -4,48 +4,169 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
-public class Internacao extends Atendimento{
+@DiscriminatorValue("INTERNACAO")
+public class Internacao extends Atendimento {
 
     @ManyToOne
     @JoinColumn(name = "numero_quarto")
     private Quarto quarto;
-    private LocalDate alta_prevista; 
-    private LocalDateTime data_alta;
 
-    public Internacao(UUID id, Paciente paciente, Profissional profissional, String observacoes, LocalDateTime horario,
-            Quarto quarto, LocalDate alta_prevista, LocalDateTime data_alta) {
+    @Column(name = "alta_prevista")
+    private LocalDate altaPrevista;
+
+    @Column(name = "data_alta")
+    private LocalDateTime dataAlta;
+
+    protected Internacao() {
+    }
+
+    public Internacao(
+            UUID id,
+            Paciente paciente,
+            Profissional profissional,
+            String observacoes,
+            LocalDateTime horario,
+            Quarto quarto,
+            LocalDate altaPrevista) {
+
         super(id, paciente, profissional, observacoes, horario);
+        validarDados(paciente, horario, quarto, altaPrevista);
+
         this.quarto = quarto;
-        this.alta_prevista = alta_prevista;
-        this.data_alta = data_alta;
+        this.altaPrevista = altaPrevista;
+    }
+
+    public Internacao(
+            Paciente paciente,
+            Profissional profissional,
+            String observacoes,
+            LocalDateTime horario,
+            Quarto quarto,
+            LocalDate altaPrevista) {
+
+        this(null, paciente, profissional, observacoes, horario, quarto, altaPrevista);
+    }
+
+    private static void validarDados(
+            Paciente paciente,
+            LocalDateTime horario,
+            Quarto quarto,
+            LocalDate altaPrevista) {
+
+        if (paciente == null) {
+            throw new IllegalArgumentException("Paciente é obrigatório para internação.");
+        }
+        if (horario == null) {
+            throw new IllegalArgumentException("Horário de entrada é obrigatório.");
+        }
+        if (quarto == null) {
+            throw new IllegalArgumentException("Quarto é obrigatório para internação.");
+        }
+        if (altaPrevista == null) {
+            throw new IllegalArgumentException("Alta prevista é obrigatória.");
+        }
+        if (altaPrevista.isBefore(horario.toLocalDate())) {
+            throw new IllegalArgumentException(
+                    "Alta prevista não pode ser anterior à data de entrada.");
+        }
+    }
+
+    public void internar() {
+        internar(0);
+    }
+
+    public void internar(long internacoesAtivasNoQuarto) {
+        if (!estaAtiva()) {
+            throw new IllegalStateException("Internação já encerrada.");
+        }
+        if (!quarto.temCapacidade(internacoesAtivasNoQuarto)) {
+            throw new IllegalStateException(
+                    "Quarto " + quarto.getNumero() + " não possui leitos disponíveis.");
+        }
+        quarto.ocuparQuarto();
+    }
+
+    public void registrarAlta(LocalDateTime dataAlta) {
+        registrarAlta(dataAlta, 0);
+    }
+
+    public void registrarAlta(LocalDateTime dataAlta, long internacoesAtivasRestantes) {
+        if (dataAlta == null) {
+            throw new IllegalArgumentException("Data de alta é obrigatória.");
+        }
+        if (!estaAtiva()) {
+            throw new IllegalStateException("Internação já foi encerrada.");
+        }
+        if (dataAlta.isBefore(getHorario())) {
+            throw new IllegalArgumentException(
+                    "Data de alta não pode ser anterior à data de entrada.");
+        }
+
+        this.dataAlta = dataAlta;
+        quarto.liberarQuarto(internacoesAtivasRestantes);
+    }
+
+    public void transferirQuarto(Quarto novoQuarto) {
+        transferirQuarto(novoQuarto, 0, 0);
+    }
+
+    public void transferirQuarto(Quarto novoQuarto, long internacoesAtivasNoNovoQuarto,
+            long internacoesAtivasRestantesNoAntigo) {
+        if (novoQuarto == null) {
+            throw new IllegalArgumentException("Novo quarto é obrigatório.");
+        }
+        if (!estaAtiva()) {
+            throw new IllegalStateException(
+                    "Não é possível transferir uma internação encerrada.");
+        }
+        if (novoQuarto.getNumero() == quarto.getNumero()) {
+            throw new IllegalArgumentException("O paciente já está neste quarto.");
+        }
+        if (!novoQuarto.temCapacidade(internacoesAtivasNoNovoQuarto)) {
+            throw new IllegalStateException(
+                    "Quarto " + novoQuarto.getNumero() + " não possui leitos disponíveis.");
+        }
+
+        Quarto quartoAnterior = this.quarto;
+        novoQuarto.ocuparQuarto();
+        this.quarto = novoQuarto;
+        quartoAnterior.liberarQuarto(internacoesAtivasRestantesNoAntigo);
+    }
+
+    public void reagendarAlta(LocalDate novaAltaPrevista) {
+        if (novaAltaPrevista == null) {
+            throw new IllegalArgumentException("Alta prevista é obrigatória.");
+        }
+        if (!estaAtiva()) {
+            throw new IllegalStateException("Internação já encerrada.");
+        }
+        if (novaAltaPrevista.isBefore(getHorario().toLocalDate())) {
+            throw new IllegalArgumentException(
+                    "Alta prevista não pode ser anterior à data de entrada.");
+        }
+        this.altaPrevista = novaAltaPrevista;
+    }
+
+    public boolean estaAtiva() {
+        return dataAlta == null;
     }
 
     public Quarto getQuarto() {
         return quarto;
     }
 
-    public void setQuarto(Quarto quarto) {
-        this.quarto = quarto;
+    public LocalDate getAltaPrevista() {
+        return altaPrevista;
     }
 
-    public LocalDate getAlta_prevista() {
-        return alta_prevista;
-    }
-
-    public void setAlta_prevista(LocalDate alta_prevista) {
-        this.alta_prevista = alta_prevista;
-    }
-
-    public LocalDateTime getData_alta() {
-        return data_alta;
-    }
-
-    public void setData_alta(LocalDateTime data_alta) {
-        this.data_alta = data_alta;
+    public LocalDateTime getDataAlta() {
+        return dataAlta;
     }
 }
